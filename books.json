@@ -1,17 +1,11 @@
-[{
-    "author": "Douglas Crockford",
-    "imageLink": "./images/theGoodParts.jpg",
-    "title": "JavaScript: The Good Parts",
-    "price": 30,
-    "description": "With JavaScript: The Good Parts, you'll discover a beautiful, elegant, lightweight and highly expressive language that lets you create effective code, whether you're managing object libraries or just trying to get Ajax to run fast. If you develop sites or applications for the Web, this book is an absolute must"
+[
+  {
+    "author": "Addy Osmani",
+    "imageLink": "./images/patterns.jpg",
+    "title": "Learning JavaScript Design Patterns",
+    "price": 32,
+    "description": "With Learning JavaScript Design Patterns, you’ll learn how to write beautiful, structured, and maintainable JavaScript by applying classical and modern design patterns to the language. If you want to keep your code efficient, more manageable, and up-to-date with the latest best practices, this book is for you."
   },
-    {
-      "author": "David Herman",
-      "imageLink": "./images/effectiveJS.jpg",
-      "title": "Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript",
-      "price": 22,
-      "description": "Effective JavaScript is organized around 68 proven approaches for writing better JavaScript, backed by concrete examples. You’ll learn how to choose the right programming style for each project, manage unanticipated problems, and work more successfully with every facet of JavaScript programming from data structures to concurrency"
-    },
     {
       "author": "David Flanagan",
       "imageLink": "./images/definitive.jpg",
@@ -27,11 +21,11 @@
       "description": "Take advantage of JavaScript’s power to build robust web-scale or enterprise applications that are easy to extend and maintain. By applying the design patterns outlined in this practical book, experienced JavaScript developers will learn how to write flexible and resilient code that’s easier—yes, easier—to work with as your code base grows."
     },
     {
-      "author": "Addy Osmani",
-      "imageLink": "./images/patterns.jpg",
-      "title": "Learning JavaScript Design Patterns",
-      "price": 32,
-      "description": "With Learning JavaScript Design Patterns, you’ll learn how to write beautiful, structured, and maintainable JavaScript by applying classical and modern design patterns to the language. If you want to keep your code efficient, more manageable, and up-to-date with the latest best practices, this book is for you."
+      "author": "Douglas Crockford",
+      "imageLink": "./images/theGoodParts.jpg",
+      "title": "JavaScript: The Good Parts",
+      "price": 30,
+      "description": "With JavaScript: The Good Parts, you'll discover a beautiful, elegant, lightweight and highly expressive language that lets you create effective code, whether you're managing object libraries or just trying to get Ajax to run fast. If you develop sites or applications for the Web, this book is an absolute must"
     },
     {
       "author": "Boris Cherny",
@@ -67,5 +61,12 @@
       "title": "Secrets of the JavaScript Ninja",
       "price": 33,
       "description": "Secrets of the Javascript Ninja takes you on a journey towards mastering modern JavaScript development in three phases: design, construction, and maintenance. Written for JavaScript developers with intermediate-level skills, this book will give you the knowledge you need to create a cross-browser JavaScript library from the ground up."
+    },
+    {
+      "author": "David Herman",
+      "imageLink": "./images/effectiveJS.jpg",
+      "title": "Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript",
+      "price": 22,
+      "description": "Effective JavaScript is organized around 68 proven approaches for writing better JavaScript, backed by concrete examples. You’ll learn how to choose the right programming style for each project, manage unanticipated problems, and work more successfully with every facet of JavaScript programming from data structures to concurrency"
     }
   ]
