@@ -161,7 +161,7 @@ section .container .card_wrapper:hover {
   box-shadow: 2px 8px 4px -6px hsla(0,0%,0%,.3);
 }
 
-section .container .card_wrapper .card_btn { 
+section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn { 
   color: var(--grey-primary);
   background-color: var(--white-primary);
   align-self: start;
@@ -203,7 +203,7 @@ footer {
 }
 
 footer .container div {
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -211,7 +211,7 @@ footer .container div {
 
 footer .container div img {
   width: 2.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
   margin-right: 1rem;
   transition:all .5s ease;
 }

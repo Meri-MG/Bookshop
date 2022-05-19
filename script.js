@@ -4,8 +4,11 @@ const mainWrapper = id('main_wrapper');
 const pageTitle = document.createElement('h2');
 pageTitle.innerText = 'Learn how to learn with our books';
 mainWrapper.prepend(pageTitle);
+const modalSection = document.createElement('section');
+modalSection.className += 'modal_section';
+mainWrapper.after(modalSection);
 
-function header() {
+const header = () => {
   const header = document.createElement('header');
   const container = document.createElement('div');
   container.className += 'container';
@@ -33,9 +36,9 @@ function header() {
   container.appendChild(navBar);
   navBar.appendChild(navUl);
   document.body.prepend(header);
-}
+};
 
-function footer() {
+const footer = () => {
   const footer = document.createElement('footer');
   const footerWrapper = document.createElement('div');
   const container = document.createElement('div');
@@ -64,10 +67,10 @@ function footer() {
   linksWrapper.appendChild(linkedInTag);
   gitHubTag.appendChild(githubImg);
   linkedInTag.appendChild(linkedinImg);
-  mainWrapper.after(footer);
-}
+  modalSection.after(footer);
+};
 
-function addCards(obj) {
+const addCards = (obj) => {
   const container = document.createElement('div');
   container.className += 'container';
   for (let card of obj) {
@@ -76,13 +79,13 @@ function addCards(obj) {
     const imageDiv = document.createElement('div');
     imageDiv.className += 'image_wrapper';
     const imgTag = document.createElement('img');
-    imgTag.src = `${card.imageLink}`;
+    imgTag.src = card.imageLink;
     imgTag.alt = 'book image';
     const contentDiv = document.createElement('div');
     contentDiv.className += 'content_wrapper';
     const cardTitle = document.createElement('h3');
     cardTitle.className += 'title';
-    cardTitle.innerText = `${card.title}`;
+    cardTitle.innerText = card.title;
     const cardAuthor = document.createElement('p');
     cardAuthor.innerText = `by ${card.author}`;
     const cardPrice = document.createElement('p');
@@ -90,12 +93,13 @@ function addCards(obj) {
     cardPrice.className += 'price';
     cardPrice.innerText = `$ ${card.price}`;
     const showBtn = document.createElement('button');
-    showBtn.className += 'card_btn';
+    showBtn.className += 'card_show_btn';
     showBtn.setAttribute('id', 'show_btn');
+    showBtn.setAttribute('data', card.id);
     showBtn.type = 'button';
     showBtn.innerText = 'Show More';
     const addBtn = document.createElement('button');
-    addBtn.className += 'card_btn';
+    addBtn.className += 'card_add_btn';
     addBtn.setAttribute('id', 'add_btn');
     addBtn.type = 'button';
     addBtn.innerText = 'Add to bag';
@@ -110,20 +114,57 @@ function addCards(obj) {
     container.appendChild(cardWrapper);
   }
   mainWrapper.appendChild(container);
-}
+};
 
-async function populate() {
-  const requestURL = './books.json';
-  const request = new Request(requestURL);
-  const response = await fetch(request);
+const clearElement = (element) => {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+};
+
+const modal = (obj, index = 0) => {
+  clearElement(modalSection);
+  obj.forEach((book) => {
+    const modalWrapper = document.createElement('div');
+    modalWrapper.setAttribute('id', `${index}`);
+    modalWrapper.className += 'modal_wrapper';
+    const modalInnerWrap = document.createElement('div');
+    const modalDesc = document.createElement('p');
+    modalDesc.innerText = `${book.description}`;
+    const closeBtn = document.createElement('button');
+    closeBtn.className += 'card_close_btn';
+    closeBtn.setAttribute('id', 'close_btn');
+    closeBtn.type = 'button';
+    closeBtn.innerText = 'Close';
+    modalInnerWrap.appendChild(modalDesc);
+    modalInnerWrap.appendChild(closeBtn);
+    modalWrapper.appendChild(modalInnerWrap);
+    if (book.id === index) {
+      modalSection.appendChild(modalWrapper);
+    }
+  });
+};
+
+const populate = async () => {
+  const response = await fetch('./books.json');
   const booksList = await response.json();
-  addCards(booksList);
   return booksList;
-}
+};
 
 window.addEventListener('DOMContentLoaded', () => {
   header();
-  populate();
+  populate().then((booksList) => {
+    addCards(booksList);
+    const showBtns = document.getElementsByClassName('card_show_btn');
+    [...showBtns].forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        console.log(index, 'index', booksList[index].id, 'id-id');
+        if (index === booksList[index].id) {
+          modal(booksList, booksList[index].id);
+        }
+      });
+    });
+  });
   footer();
   console.log('DOM fully loaded and parsed');
 });
