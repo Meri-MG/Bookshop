@@ -107,7 +107,7 @@ section .container {
   padding-bottom: 3.5rem;
 }
 
-section .container .card_wrapper {
+section .container .card_wrapper, .modal_wrapper {
   background-color: var(--white-primary);
   min-height: 500px;
   align-self: center;
@@ -172,7 +172,6 @@ section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn 
   align-self: center;
   padding: 1rem 1rem;
   transition: all .5s ease;
-  letter-spacing: 1px;
   outline: none;
   box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
@@ -190,7 +189,7 @@ section .container .card_wrapper #add_btn {
   margin-left: 1rem;
 }
 
-section .container .card_wrapper #add_btn:hover{
+section .container .card_wrapper #add_btn:hover, .card_close_btn:hover {
   background-color: var(--pink-primary);
   color: var(--grey-primary);
 }
@@ -218,4 +217,41 @@ footer .container div img {
 
 footer .container div img:hover {
   transform: scale(1.2);
+}
+
+.modal_section.active {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  overflow-y: scroll;
+  display: block;
+}
+
+.modal_wrapper {
+  position: relative;
+  width: 70%;
+  margin: 5rem auto;
+}
+
+.modal_wrapper div {
+  width: 70%;
+  margin: 0 auto;
+  
+}
+
+.modal_wrapper div p {
+  letter-spacing: 0.06em;
+  line-height: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.modal_section.hide {
+  display: none;
 }

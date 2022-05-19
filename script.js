@@ -122,6 +122,16 @@ const clearElement = (element) => {
   }
 };
 
+const closePopup = (target) => {
+  target.parentElement.parentElement.parentElement.classList.add('hide');
+  target.parentElement.parentElement.parentElement.classList.remove('active');
+};
+
+const openPopup = (target) => {
+  target.parentElement.parentElement.parentElement.classList.remove('hide');
+  target.parentElement.parentElement.parentElement.classList.add('active');
+};
+
 const modal = (obj, index = 0) => {
   clearElement(modalSection);
   obj.forEach((book) => {
@@ -143,6 +153,16 @@ const modal = (obj, index = 0) => {
       modalSection.appendChild(modalWrapper);
     }
   });
+  closeBtn = document.getElementById('close_btn');
+  closeBtn.addEventListener('click', () => {
+    closePopup(closeBtn);
+  });
+  const showBtns = document.getElementsByClassName('card_show_btn');
+  [...showBtns].forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openPopup(closeBtn);
+    });
+  });
 };
 
 const populate = async () => {
@@ -156,6 +176,7 @@ window.addEventListener('DOMContentLoaded', () => {
   populate().then((booksList) => {
     addCards(booksList);
     const showBtns = document.getElementsByClassName('card_show_btn');
+    const modalCloseBtn = document.getElementById('close_btn');
     [...showBtns].forEach((btn, index) => {
       btn.addEventListener('click', () => {
         console.log(index, 'index', booksList[index].id, 'id-id');
@@ -164,7 +185,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+    // console.log(modalCloseBtn, 'close');
+    // modalCloseBtn.addEventListener('click', () => {
+    //   closePopup(modalCloseBtn);
+    // });
   });
+
   footer();
   console.log('DOM fully loaded and parsed');
 });
