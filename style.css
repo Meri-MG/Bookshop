@@ -255,3 +255,15 @@ footer .container div img:hover {
 .modal_section.hide {
   display: none;
 }
+
+.catalog_wrapper {
+  display: flex;
+}
+
+.catalog_wrapper img {
+  width: 200px;
+}
+
+.catalog_wrapper.hide {
+  display: none;
+}

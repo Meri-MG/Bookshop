@@ -13,10 +13,12 @@ modalSection.className += 'modal_section';
 const catalogSection = document.createElement('section');
 catalogSection.className += 'cart_section';
 let showBtns = document.getElementsByClassName('card_show_btn');
-// let addBtns = document.getElementsByClassName('card_add_btn');
+let addBtns = document.getElementsByClassName('card_add_btn');
+let deleteBtns = document.getElementsByClassName('card_delete_btn');
 mainWrapper.after(modalSection);
 // mainWrapper.appendChild(catalogSection);
 // document.body.append(catalogSection);
+let addedBooks = [];
 
 const header = () => {
   const header = document.createElement('header');
@@ -146,22 +148,23 @@ const closePopup = (target) => {
 
 const modal = (obj, index) => {
   clearElement(modalSection);
+  console.log(obj, 'modal');
   obj.forEach((book) => {
-    const modalWrapper = document.createElement('div');
-    modalWrapper.setAttribute('id', index);
-    modalWrapper.className += 'modal_wrapper';
-    const modalInnerWrap = document.createElement('div');
-    const modalDesc = document.createElement('p');
-    modalDesc.innerText = book.description;
-    const closeBtn = document.createElement('button');
-    closeBtn.className += 'card_close_btn';
-    closeBtn.setAttribute('id', 'close_btn');
-    closeBtn.type = 'button';
-    closeBtn.innerText = 'Close';
-    modalInnerWrap.appendChild(modalDesc);
-    modalInnerWrap.appendChild(closeBtn);
-    modalWrapper.appendChild(modalInnerWrap);
     if (book.id === index) {
+      const modalWrapper = document.createElement('div');
+      modalWrapper.setAttribute('id', index);
+      modalWrapper.className += 'modal_wrapper';
+      const modalInnerWrap = document.createElement('div');
+      const modalDesc = document.createElement('p');
+      modalDesc.innerText = book.description;
+      const closeBtn = document.createElement('button');
+      closeBtn.className += 'card_close_btn';
+      closeBtn.setAttribute('id', 'close_btn');
+      closeBtn.type = 'button';
+      closeBtn.innerText = 'Close';
+      modalInnerWrap.appendChild(modalDesc);
+      modalInnerWrap.appendChild(closeBtn);
+      modalWrapper.appendChild(modalInnerWrap);
       modalSection.appendChild(modalWrapper);
     }
   });
@@ -193,9 +196,16 @@ const saveToStorage = (list) => {
   return list;
 };
 
-const addToCart = (obj, index) => {
+const closeCart = (target) => {
+  console.log(target.parentElement, 'elem');
+  target.parentElement.classList.add('hide');
+  target.parentElement.classList.remove('active');
+};
+
+const addToCart = (index) => {
   clearElement(catalogSection);
-  obj.forEach((catalog) => {
+  let obj = getFromStorage();
+  [...obj].forEach((catalog) => {
     const catalogWrapper = document.createElement('div');
     catalogWrapper.className += 'catalog_wrapper';
     catalogWrapper.setAttribute('id', index);
@@ -219,7 +229,6 @@ const addToCart = (obj, index) => {
     const deleteBtn = document.createElement('button');
     deleteBtn.className += 'card_delete_btn';
     deleteBtn.setAttribute('id', 'delete_btn');
-    // deleteBtn.setAttribute('data', catalog.id);
     deleteBtn.type = 'button';
     deleteBtn.innerText = 'X';
     catalogWrapper.appendChild(imageDiv);
@@ -231,13 +240,15 @@ const addToCart = (obj, index) => {
     catalogWrapper.appendChild(contentDiv);
     catalogWrapper.appendChild(deleteBtn);
     catalogSection.appendChild(catalogWrapper);
-    if (catalog.id === index) {
-      catalogSection.appendChild(catalogWrapper);
-    }
+    deleteBtn.addEventListener('click', () => {
+      closeCart(deleteBtn);
+      const filtered = [...addedBooks].filter((item) => item.id !== index);
+      console.log(filtered, 'filtered');
+      saveToStorage(filtered);
+      window.location.reload();
+    });
   });
 };
-
-// console.log(addBtns, 'btns');
 
 window.addEventListener('DOMContentLoaded', () => {
   header();
@@ -246,24 +257,21 @@ window.addEventListener('DOMContentLoaded', () => {
     [...showBtns].forEach((btn, index) => {
       btn.addEventListener('click', () => {
         if (index === booksList[index].id) {
+          console.log(booksList, 'books');
           modal(booksList, booksList[index].id);
         }
       });
     });
-    let addBtns = document.getElementsByClassName('card_add_btn');
-
     [...addBtns].forEach((btn, index) => {
       btn.addEventListener('click', () => {
         console.log(index, 'index', booksList[index].id, 'id-id');
         if (index === booksList[index].id) {
-          addToCart(booksList, booksList[index].id);
+          addedBooks = [...addedBooks, booksList[index]];
+          saveToStorage(addedBooks);
+          addToCart(index);
         }
       });
     });
-    // console.log(modalCloseBtn, 'close');
-    // modalCloseBtn.addEventListener('click', () => {
-    //   closePopup(modalCloseBtn);
-    // });
   });
 
   footer();
