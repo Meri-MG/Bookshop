@@ -1,3 +1,7 @@
+// import { saveToStorage, getFromStorage } from './storage.js';
+
+// let fragment = new DocumentFragment();
+
 const id = (id) => document.getElementById(id);
 const classes = (classes) => document.getElementsByClassName(classes);
 const mainWrapper = id('main_wrapper');
@@ -6,7 +10,13 @@ pageTitle.innerText = 'Learn how to learn with our books';
 mainWrapper.prepend(pageTitle);
 const modalSection = document.createElement('section');
 modalSection.className += 'modal_section';
+const catalogSection = document.createElement('section');
+catalogSection.className += 'cart_section';
+let showBtns = document.getElementsByClassName('card_show_btn');
+// let addBtns = document.getElementsByClassName('card_add_btn');
 mainWrapper.after(modalSection);
+// mainWrapper.appendChild(catalogSection);
+// document.body.append(catalogSection);
 
 const header = () => {
   const header = document.createElement('header');
@@ -36,6 +46,7 @@ const header = () => {
   container.appendChild(navBar);
   navBar.appendChild(navUl);
   document.body.prepend(header);
+  header.before(catalogSection);
 };
 
 const footer = () => {
@@ -101,6 +112,7 @@ const addCards = (obj) => {
     const addBtn = document.createElement('button');
     addBtn.className += 'card_add_btn';
     addBtn.setAttribute('id', 'add_btn');
+    addBtn.setAttribute('data', card.id);
     addBtn.type = 'button';
     addBtn.innerText = 'Add to bag';
     contentDiv.appendChild(cardTitle);
@@ -122,25 +134,25 @@ const clearElement = (element) => {
   }
 };
 
+const openPopup = (target) => {
+  target.parentElement.parentElement.parentElement.classList.add('active');
+  target.parentElement.parentElement.parentElement.classList.remove('hide');
+};
+
 const closePopup = (target) => {
   target.parentElement.parentElement.parentElement.classList.add('hide');
   target.parentElement.parentElement.parentElement.classList.remove('active');
 };
 
-const openPopup = (target) => {
-  target.parentElement.parentElement.parentElement.classList.remove('hide');
-  target.parentElement.parentElement.parentElement.classList.add('active');
-};
-
-const modal = (obj, index = 0) => {
+const modal = (obj, index) => {
   clearElement(modalSection);
   obj.forEach((book) => {
     const modalWrapper = document.createElement('div');
-    modalWrapper.setAttribute('id', `${index}`);
+    modalWrapper.setAttribute('id', index);
     modalWrapper.className += 'modal_wrapper';
     const modalInnerWrap = document.createElement('div');
     const modalDesc = document.createElement('p');
-    modalDesc.innerText = `${book.description}`;
+    modalDesc.innerText = book.description;
     const closeBtn = document.createElement('button');
     closeBtn.className += 'card_close_btn';
     closeBtn.setAttribute('id', 'close_btn');
@@ -157,7 +169,6 @@ const modal = (obj, index = 0) => {
   closeBtn.addEventListener('click', () => {
     closePopup(closeBtn);
   });
-  const showBtns = document.getElementsByClassName('card_show_btn');
   [...showBtns].forEach((btn) => {
     btn.addEventListener('click', () => {
       openPopup(closeBtn);
@@ -171,17 +182,81 @@ const populate = async () => {
   return booksList;
 };
 
+const getFromStorage = () => {
+  return localStorage.getItem('books')
+    ? JSON.parse(localStorage.getItem('books'))
+    : [];
+};
+
+const saveToStorage = (list) => {
+  localStorage.setItem('books', JSON.stringify(list));
+  return list;
+};
+
+const addToCart = (obj, index) => {
+  clearElement(catalogSection);
+  obj.forEach((catalog) => {
+    const catalogWrapper = document.createElement('div');
+    catalogWrapper.className += 'catalog_wrapper';
+    catalogWrapper.setAttribute('id', index);
+    const imageDiv = document.createElement('div');
+    imageDiv.className += 'catalog_image_wrapper';
+    const imgTag = document.createElement('img');
+    imgTag.src = catalog.imageLink;
+    imgTag.alt = 'book image';
+    const contentDiv = document.createElement('div');
+    contentDiv.className += 'content_wrapper';
+    const catalogTitle = document.createElement('h3');
+    catalogTitle.className += 'title';
+    catalogTitle.innerText = catalog.title;
+    const catalogAuthor = document.createElement('p');
+    catalogAuthor.innerText = `by ${catalog.author}`;
+    const catalogPrice = document.createElement('p');
+    catalogAuthor.className += 'author';
+    catalogAuthor.className += 'author';
+    catalogPrice.className += 'price';
+    catalogPrice.innerText = `$ ${catalog.price}`;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className += 'card_delete_btn';
+    deleteBtn.setAttribute('id', 'delete_btn');
+    // deleteBtn.setAttribute('data', catalog.id);
+    deleteBtn.type = 'button';
+    deleteBtn.innerText = 'X';
+    catalogWrapper.appendChild(imageDiv);
+    imageDiv.appendChild(imgTag);
+    contentDiv.appendChild(catalogTitle);
+    contentDiv.appendChild(catalogAuthor);
+    contentDiv.appendChild(catalogTitle);
+    contentDiv.appendChild(catalogPrice);
+    catalogWrapper.appendChild(contentDiv);
+    catalogWrapper.appendChild(deleteBtn);
+    catalogSection.appendChild(catalogWrapper);
+    if (catalog.id === index) {
+      catalogSection.appendChild(catalogWrapper);
+    }
+  });
+};
+
+// console.log(addBtns, 'btns');
+
 window.addEventListener('DOMContentLoaded', () => {
   header();
   populate().then((booksList) => {
     addCards(booksList);
-    const showBtns = document.getElementsByClassName('card_show_btn');
-    const modalCloseBtn = document.getElementById('close_btn');
     [...showBtns].forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        if (index === booksList[index].id) {
+          modal(booksList, booksList[index].id);
+        }
+      });
+    });
+    let addBtns = document.getElementsByClassName('card_add_btn');
+
+    [...addBtns].forEach((btn, index) => {
       btn.addEventListener('click', () => {
         console.log(index, 'index', booksList[index].id, 'id-id');
         if (index === booksList[index].id) {
-          modal(booksList, booksList[index].id);
+          addToCart(booksList, booksList[index].id);
         }
       });
     });

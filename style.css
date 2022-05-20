@@ -231,7 +231,7 @@ footer .container div img:hover {
   align-items: center;
   z-index: 50;
   overflow-y: scroll;
-  display: block;
+  /* display: block; */
 }
 
 .modal_wrapper {
