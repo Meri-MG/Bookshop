@@ -10,11 +10,18 @@ pageTitle.innerText = 'Learn how to learn with our books';
 mainWrapper.prepend(pageTitle);
 const modalSection = document.createElement('section');
 modalSection.className += 'modal_section';
+const catalogHeader = document.createElement('h2');
+catalogHeader.className += 'catalog_header';
+catalogHeader.innerText = 'Order Books';
 const catalogSection = document.createElement('section');
 catalogSection.className += 'cart_section';
-let showBtns = document.getElementsByClassName('card_show_btn');
-let addBtns = document.getElementsByClassName('card_add_btn');
-let deleteBtns = document.getElementsByClassName('card_delete_btn');
+catalogSection.appendChild(catalogHeader);
+let showBtns = classes('card_show_btn');
+let addBtns = classes('card_add_btn');
+let deleteBtns = classes('card_delete_btn');
+const mainContainer = id('main_container');
+mainContainer.appendChild(catalogSection);
+
 mainWrapper.after(modalSection);
 // mainWrapper.appendChild(catalogSection);
 // document.body.append(catalogSection);
@@ -48,7 +55,6 @@ const header = () => {
   container.appendChild(navBar);
   navBar.appendChild(navUl);
   document.body.prepend(header);
-  header.before(catalogSection);
 };
 
 const footer = () => {
@@ -80,12 +86,15 @@ const footer = () => {
   linksWrapper.appendChild(linkedInTag);
   gitHubTag.appendChild(githubImg);
   linkedInTag.appendChild(linkedinImg);
-  modalSection.after(footer);
+  mainContainer.after(footer);
 };
 
 const addCards = (obj) => {
   const container = document.createElement('div');
   container.className += 'container';
+  const cardHeader = document.createElement('h2');
+  cardHeader.className += 'card_header';
+  cardHeader.innerText = 'Books Catalog';
   for (let card of obj) {
     const cardWrapper = document.createElement('div');
     cardWrapper.className += 'card_wrapper';
@@ -127,6 +136,7 @@ const addCards = (obj) => {
     cardWrapper.appendChild(contentDiv);
     container.appendChild(cardWrapper);
   }
+  container.prepend(cardHeader);
   mainWrapper.appendChild(container);
 };
 
