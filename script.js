@@ -4,44 +4,81 @@
 
 const id = (id) => document.getElementById(id);
 const classes = (classes) => document.getElementsByClassName(classes);
-const mainWrapper = id('main_wrapper');
-const pageTitle = document.createElement('h2');
-pageTitle.innerText = 'Learn how to learn with our books';
-mainWrapper.prepend(pageTitle);
-const modalSection = document.createElement('section');
-modalSection.className += 'modal_section';
-const catalogHeader = document.createElement('h2');
+const elements = (elements) => document.createElement(elements);
+
+// header elements
+
+const headerDiv = elements('div');
+headerDiv.setAttribute('class', 'header_div');
+const catalogHeader = elements('h2');
 catalogHeader.className += 'catalog_header';
 catalogHeader.innerText = 'Order Books';
-const catalogSection = document.createElement('section');
+const cardHeader = elements('h2');
+cardHeader.className += 'card_header';
+cardHeader.innerText = 'Books Catalog';
+headerDiv.appendChild(cardHeader);
+headerDiv.appendChild(catalogHeader);
+
+// main container elements
+
+const pageTitle = elements('h2');
+pageTitle.innerText = 'Learn how to learn with our books';
+const modalSection = elements('section');
+modalSection.className += 'modal_section';
+const mainWrapper = elements('section');
+mainWrapper.setAttribute('id', 'main_wrapper');
+const catalogSection = elements('section');
 catalogSection.className += 'cart_section';
-catalogSection.appendChild(catalogHeader);
+const catalogTotalDiv = elements('div');
+catalogTotalDiv.setAttribute('class', 'catalog_total_div');
+const showTotal = elements('p');
+showTotal.setAttribute('class', 'show_total');
+showTotal.innerText = 'Total: $';
+const orderLink = elements('a');
+orderLink.setAttribute('href', '#');
+const orderBtn = elements('button');
+orderBtn.setAttribute('id', 'order_btn');
+orderBtn.setAttribute('type', 'button');
+orderLink.innerText = 'Order now';
+const catalogCartDiv = elements('div');
+catalogCartDiv.setAttribute('class', 'catalog_cart_div');
+catalogTotalDiv.appendChild(showTotal);
+orderBtn.appendChild(orderLink);
+catalogTotalDiv.appendChild(orderBtn);
+catalogSection.appendChild(catalogTotalDiv);
+catalogSection.appendChild(catalogCartDiv);
+const mainContainer = id('main_container');
+const mainContainerSections = elements('div');
+mainContainerSections.setAttribute('class', 'sections_wrapper');
+mainContainer.after(modalSection);
+mainContainer.appendChild(pageTitle);
+mainContainer.appendChild(headerDiv);
+mainContainerSections.appendChild(mainWrapper);
+mainContainerSections.appendChild(catalogSection);
+mainContainer.appendChild(mainContainerSections);
+
+// target buttons
 let showBtns = classes('card_show_btn');
 let addBtns = classes('card_add_btn');
-let deleteBtns = classes('card_delete_btn');
-const mainContainer = id('main_container');
-mainContainer.appendChild(catalogSection);
+let deleteBtns = classes('cart_delete_btn');
 
-mainWrapper.after(modalSection);
-// mainWrapper.appendChild(catalogSection);
-// document.body.append(catalogSection);
 let addedBooks = [];
 
 const header = () => {
-  const header = document.createElement('header');
-  const container = document.createElement('div');
+  const header = elements('header');
+  const container = elements('div');
   container.className += 'container';
-  const logoWrapper = document.createElement('div');
-  const logoTag = document.createElement('a');
+  const logoWrapper = elements('div');
+  const logoTag = elements('a');
   logoTag.setAttribute('href', '#');
-  const logoHeader = document.createElement('h1');
+  const logoHeader = elements('h1');
   logoHeader.innerText = 'BoOkShOp';
-  const navBar = document.createElement('nav');
-  const navUl = document.createElement('ul');
+  const navBar = elements('nav');
+  const navUl = elements('ul');
   for (let i = 0; i < 3; i++) {
-    const navLink = document.createElement('li');
+    const navLink = elements('li');
     navUl.append(navLink);
-    const navTag = document.createElement('a');
+    const navTag = elements('a');
     navLink.append(navTag);
     navTag.setAttribute('href', '#');
     const links = [['Books'], ['My bag'], ['Contacts']];
@@ -58,22 +95,22 @@ const header = () => {
 };
 
 const footer = () => {
-  const footer = document.createElement('footer');
-  const footerWrapper = document.createElement('div');
-  const container = document.createElement('div');
+  const footer = elements('footer');
+  const footerWrapper = elements('div');
+  const container = elements('div');
   container.className += 'container';
-  const copyR = document.createElement('p');
+  const copyR = elements('p');
   copyR.innerText = '©  Copyright 2022 Meri Gogichashvili';
-  const linksWrapper = document.createElement('div');
-  const gitHubTag = document.createElement('a');
+  const linksWrapper = elements('div');
+  const gitHubTag = elements('a');
   gitHubTag.setAttribute('href', 'https://github.com/Meri-MG');
-  const githubImg = document.createElement('img');
+  const githubImg = elements('img');
   githubImg.src = './images/github.svg';
   githubImg.alt = 'github_icon';
-  const linkedinImg = document.createElement('img');
+  const linkedinImg = elements('img');
   linkedinImg.src = './images/linkedin.png';
   linkedinImg.alt = 'linkedin_icon';
-  const linkedInTag = document.createElement('a');
+  const linkedInTag = elements('a');
   linkedInTag.setAttribute(
     'href',
     'https://www.linkedin.com/in/meri-gogichashvili/'
@@ -86,41 +123,40 @@ const footer = () => {
   linksWrapper.appendChild(linkedInTag);
   gitHubTag.appendChild(githubImg);
   linkedInTag.appendChild(linkedinImg);
-  mainContainer.after(footer);
+  modalSection.after(footer);
 };
 
 const addCards = (obj) => {
-  const container = document.createElement('div');
+  const container = elements('div');
   container.className += 'container';
-  const cardHeader = document.createElement('h2');
-  cardHeader.className += 'card_header';
-  cardHeader.innerText = 'Books Catalog';
   for (let card of obj) {
-    const cardWrapper = document.createElement('div');
+    const cardWrapper = elements('div');
     cardWrapper.className += 'card_wrapper';
-    const imageDiv = document.createElement('div');
+    const imageDiv = elements('div');
     imageDiv.className += 'image_wrapper';
-    const imgTag = document.createElement('img');
+    const imgTag = elements('img');
     imgTag.src = card.imageLink;
     imgTag.alt = 'book image';
-    const contentDiv = document.createElement('div');
+    const contentDiv = elements('div');
     contentDiv.className += 'content_wrapper';
-    const cardTitle = document.createElement('h3');
+    const cardTitle = elements('h3');
     cardTitle.className += 'title';
     cardTitle.innerText = card.title;
-    const cardAuthor = document.createElement('p');
+    const cardAuthor = elements('p');
     cardAuthor.innerText = `by ${card.author}`;
-    const cardPrice = document.createElement('p');
+    const cardPrice = elements('p');
     cardAuthor.className += 'author';
     cardPrice.className += 'price';
     cardPrice.innerText = `$ ${card.price}`;
-    const showBtn = document.createElement('button');
+    const buttonsWrap = elements('div');
+    buttonsWrap.setAttribute('class', 'buttons_wrap');
+    const showBtn = elements('button');
     showBtn.className += 'card_show_btn';
     showBtn.setAttribute('id', 'show_btn');
     showBtn.setAttribute('data', card.id);
     showBtn.type = 'button';
     showBtn.innerText = 'Show More';
-    const addBtn = document.createElement('button');
+    const addBtn = elements('button');
     addBtn.className += 'card_add_btn';
     addBtn.setAttribute('id', 'add_btn');
     addBtn.setAttribute('data', card.id);
@@ -129,14 +165,14 @@ const addCards = (obj) => {
     contentDiv.appendChild(cardTitle);
     contentDiv.appendChild(cardAuthor);
     contentDiv.appendChild(cardPrice);
-    contentDiv.appendChild(showBtn);
-    contentDiv.appendChild(addBtn);
+    contentDiv.appendChild(buttonsWrap);
+    buttonsWrap.appendChild(showBtn);
+    buttonsWrap.appendChild(addBtn);
     imageDiv.appendChild(imgTag);
     cardWrapper.appendChild(imageDiv);
     cardWrapper.appendChild(contentDiv);
     container.appendChild(cardWrapper);
   }
-  container.prepend(cardHeader);
   mainWrapper.appendChild(container);
 };
 
@@ -161,13 +197,13 @@ const modal = (obj, index) => {
   console.log(obj, 'modal');
   obj.forEach((book) => {
     if (book.id === index) {
-      const modalWrapper = document.createElement('div');
+      const modalWrapper = elements('div');
       modalWrapper.setAttribute('id', index);
       modalWrapper.className += 'modal_wrapper';
-      const modalInnerWrap = document.createElement('div');
-      const modalDesc = document.createElement('p');
+      const modalInnerWrap = elements('div');
+      const modalDesc = elements('p');
       modalDesc.innerText = book.description;
-      const closeBtn = document.createElement('button');
+      const closeBtn = elements('button');
       closeBtn.className += 'card_close_btn';
       closeBtn.setAttribute('id', 'close_btn');
       closeBtn.type = 'button';
@@ -213,46 +249,47 @@ const closeCart = (target) => {
 };
 
 const addToCart = (index) => {
-  clearElement(catalogSection);
+  clearElement(catalogCartDiv);
   let obj = getFromStorage();
   [...obj].forEach((catalog) => {
-    const catalogWrapper = document.createElement('div');
+    const catalogWrapper = elements('div');
     catalogWrapper.className += 'catalog_wrapper';
     catalogWrapper.setAttribute('id', index);
-    const imageDiv = document.createElement('div');
+    const imageDiv = elements('div');
     imageDiv.className += 'catalog_image_wrapper';
-    const imgTag = document.createElement('img');
+    const imgTag = elements('img');
     imgTag.src = catalog.imageLink;
     imgTag.alt = 'book image';
-    const contentDiv = document.createElement('div');
+    const contentDiv = elements('div');
     contentDiv.className += 'content_wrapper';
-    const catalogTitle = document.createElement('h3');
+    const catalogTitle = elements('h3');
     catalogTitle.className += 'title';
     catalogTitle.innerText = catalog.title;
-    const catalogAuthor = document.createElement('p');
+    const catalogAuthor = elements('p');
     catalogAuthor.innerText = `by ${catalog.author}`;
-    const catalogPrice = document.createElement('p');
+    const catalogPrice = elements('p');
     catalogAuthor.className += 'author';
     catalogAuthor.className += 'author';
     catalogPrice.className += 'price';
     catalogPrice.innerText = `$ ${catalog.price}`;
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className += 'card_delete_btn';
-    deleteBtn.setAttribute('id', 'delete_btn');
+    const deleteBtn = elements('button');
+    deleteBtn.className += 'cart_delete_btn';
+    deleteBtn.setAttribute('id', catalog.id);
+    deleteBtn.setAttribute('data', catalog.id);
     deleteBtn.type = 'button';
     deleteBtn.innerText = 'X';
-    catalogWrapper.appendChild(imageDiv);
     imageDiv.appendChild(imgTag);
     contentDiv.appendChild(catalogTitle);
     contentDiv.appendChild(catalogAuthor);
     contentDiv.appendChild(catalogTitle);
     contentDiv.appendChild(catalogPrice);
-    catalogWrapper.appendChild(contentDiv);
     catalogWrapper.appendChild(deleteBtn);
-    catalogSection.appendChild(catalogWrapper);
+    catalogWrapper.appendChild(imageDiv);
+    catalogWrapper.appendChild(contentDiv);
+    catalogCartDiv.appendChild(catalogWrapper);
     deleteBtn.addEventListener('click', () => {
       closeCart(deleteBtn);
-      const filtered = [...addedBooks].filter((item) => item.id !== index);
+      const filtered = addedBooks.filter((item) => item.id !== index);
       console.log(filtered, 'filtered');
       saveToStorage(filtered);
       window.location.reload();
