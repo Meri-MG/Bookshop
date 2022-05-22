@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshop</title>
+    <link rel="stylesheet" href="./reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <form action="" id="form">
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter your first name"
+        minlength="4"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="text"
+        id="surname"
+        placeholder="Enter your last name"
+        minlength="5"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="date"
+        id="delivery_date"
+        placeholder="Enter delivery date"
+        max="2031-12-31"
+        required
+      />
+      <div class="error"></div>
+      <input type="text" id="street" placeholder="Enter street address" />
+      <div class="error"></div>
+      <input
+        type="number"
+        id="house_number"
+        min="0"
+        step="1"
+        onkeypress="return event.charCode >= 48"
+        placeholder="Enter house number"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="text"
+        id="flat_number"
+        pattern="[1-9]\d*(\s*[-/]\s*[1-9]\d*)?"
+        min="0"
+        step="1"
+        placeholder="Enter flat number"
+        required
+      />
+      <div class="error"></div>
+      <input type="radio" name="payment" value="cash" id="cash" required />
+      <label for="cash">Cash</label>
+      <div class="error"></div>
+      <input type="radio" name="payment" value="card" id="card" required />
+      <label for="card">Card</label>
+      <div class="error"></div>
+      <input type="checkbox" id="gift" name="Gift" value="yes" />
+      <label for="gift"> Gift </label>
+      <div class="error"></div>
+      <input type="checkbox" id="postcard" name="Postcard" value="yes" />
+      <label for="postcard"> Postcard </label>
+      <div class="error"></div>
+      <input type="checkbox" id="discount" name="discount" value="yes" />
+      <label for="discount"> 2% discount for the next time </label>
+      <div class="error"></div>
+      <input type="checkbox" id="branded" name="branded" value="yes" />
+      <label for="branded"> branded pen or pencil </label>
+      <div class="error"></div>
+      <button type="submit" id="confirm_btn" disabled>Order</button>
+    </form>
+    <script src="form.js"></script>
+  </body>
+</html>

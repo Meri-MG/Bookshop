@@ -348,3 +348,42 @@ footer .container div img:hover {
 .catalog_wrapper.hide {
   display: none;
 }
+
+form {
+  border: 2px solid red;
+  width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+input {
+  padding: 1rem;
+}
+
+#confirm_btn {
+  border: 1px solid #B2B2B2;
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
+#confirm_btn.active {
+  border: 1px solid #B2B2B2;
+  cursor: pointer;
+}
+
+.popup_tab {
+  display: none;
+}
+
+.popup_tab.active {
+  border: 2px solid red;
+  width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
