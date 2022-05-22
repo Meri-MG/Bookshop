@@ -32,10 +32,8 @@ if (mm < 10) {
 today = yyyy + '-' + mm + '-' + dd;
 document.getElementById('delivery_date').setAttribute('min', today);
 
-// flat number, the dash symbol is allowed
-
+// other validations
 const validation = (id, serial, message) => {
-  // if (id.value === '') {
   errorMsg[serial].innerHTML = message;
   id.style.border = '2px solid red';
 };
@@ -84,6 +82,8 @@ form.addEventListener('click', () => {
   }
 });
 
+// summary popup
+
 const getFromStorage = () => {
   return localStorage.getItem('orders')
     ? JSON.parse(localStorage.getItem('orders'))
@@ -106,17 +106,10 @@ const addDataToStorage = (
   saveToStorage(myStorage);
 };
 
-const displayData = () =>
-  // index,
-  // formName,
-  // formSurname,
-  // formStreet,
-  // fromHouse,
-  // formFlat
-  {
-    const data = getFromStorage();
-    console.log(data, 'data');
-    popupTab.innerHTML = `<div class="confirm_popup">
+const displayData = () => {
+  const data = getFromStorage();
+  console.log(data, 'data');
+  popupTab.innerHTML = `<div class="confirm_popup">
   <div class="header_popup">
     <h2 class="title_popup">Order received</h2>
   </div>
@@ -128,8 +121,8 @@ const displayData = () =>
     <a href="./index.html">Back to Main</a>
   </div>
 </div>`;
-    popupTab.classList.add('active');
-  };
+  popupTab.classList.add('active');
+};
 
 confirmBtn.addEventListener('click', (e) => {
   e.preventDefault();
@@ -147,4 +140,3 @@ confirmBtn.addEventListener('click', (e) => {
 });
 
 console.log(popupTab, 'pp1');
-// export default { getFromStorage, saveToStorage };
