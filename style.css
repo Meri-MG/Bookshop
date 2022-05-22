@@ -131,7 +131,7 @@ section .container {
   padding-bottom: 3.5rem;
 }
 
-section .container .card_wrapper, .modal_wrapper {
+section .container .card_wrapper, .modal_wrapper, form {
   background-color: var(--white-primary);
   min-height: 500px;
   align-self: center;
@@ -189,7 +189,7 @@ section .container .card_wrapper:hover, .catalog_total_div:hover, .catalog_wrapp
   box-shadow: 2px 8px 4px -6px hsla(0,0%,0%,.3);
 }
 
-section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn, #order_btn, .catalog_total_div, .catalog_wrapper, .cart_delete_btn { 
+section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn, #order_btn, .catalog_total_div, .catalog_wrapper, .cart_delete_btn, input, #confirm_btn { 
   color: var(--grey-primary);
   background-color: var(--white-primary);
   align-self: start;
@@ -217,7 +217,7 @@ section .container .card_wrapper #add_btn, #order_btn {
   margin-left: 1rem;
 }
 
-section .container .card_wrapper #add_btn:hover, .card_close_btn:hover, #order_btn:hover {
+section .container .card_wrapper #add_btn:hover, .card_close_btn:hover, #order_btn:hover, #confirm_btn:hover {
   background-color: var(--pink-primary);
   color: var(--grey-primary);
 }
@@ -344,23 +344,90 @@ footer .container div img:hover {
 /* forms styles */
 
 form {
-  border: 2px solid red;
-  width: 400px;
+  max-width: 50%;
   margin: 4rem auto;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 input {
   padding: 1rem;
+  border: 1px solid var(--pink-primary);
+  border-radius: 9px;
+  text-transform: lowercase;
+  margin: 0.8rem 0 0.8rem 0;
+  width: 80%;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+.error {
+  color: #dc3c31;
+  font-size: 15px;
+  padding: 0.1rem;
+  width: 80%;
+}
+
+.pay_wrap {
+  display: flex;
+  width: 60%;
+  margin: 1rem auto;
+  align-items: center;
+}
+
+.pay_wrap label {
+  font-size: 25px;
+}
+
+.pay_wrap input {
+  width: 40px;
+  height: 40px;
+  margin-left: 1.3rem;
+}
+
+.gift_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 60%;
+  margin: 1rem auto;
+}
+
+.gift_wrap p {
+  font-size: 25px;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.gift_wrap div {
+  width: 100%;
+  display: flex;
+  text-align: left;
+}
+
+.gift_wrap div label {
+  font-size: 25px;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+}
+
+.gift_wrap div input {
+  align-self: flex-start;
+  display: inline-block;
+  text-align: left;
+  width: 10%; 
+  width: 20px;
+  height: 20px;
 }
 
 #confirm_btn {
   border: 1px solid #B2B2B2;
   cursor: not-allowed;
   pointer-events: all !important;
+  padding: 1.2rem;
 }
 
 #confirm_btn.active {
@@ -373,11 +440,38 @@ input {
 }
 
 .popup_tab.active {
-  border: 2px solid red;
-  width: 400px;
-  margin: 4rem auto;
-  padding: 2rem;
+  color: var(--grey-primary);
+  background-color: var(--white-primary);
+  align-self: start;
+  cursor: pointer;
+  font-size: 25px;
+  letter-spacing: 0.06em;
+  border: solid 2px var(--grey-primary);
+  align-self: center;
+  padding: 1rem 1rem;
+  transition: all .5s ease;
+  outline: none;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  text-transform: uppercase;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: 50%;
+  margin: 10rem auto;
+}
+
+.popup_tab div {
+  width: 60%;
+  margin: 2rem auto;
+}
+
+.popup_tab div p {
+  margin: 1.5rem 0 1.5rem 0;
+}
+
+.popup_tab div span, h2 {
+  font-weight: bold;
+}
+
+.popup_tab div a {
+  color: var(--pink-primary);
 }

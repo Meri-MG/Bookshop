@@ -35,12 +35,12 @@ document.getElementById('delivery_date').setAttribute('min', today);
 // other validations
 const validation = (id, serial, message) => {
   errorMsg[serial].innerHTML = message;
-  id.style.border = '2px solid red';
+  id.style.border = '2px solid #dc3c31';
 };
 
 const removeErr = (id, serial) => {
   errorMsg[serial].innerHTML = '';
-  id.style.border = '';
+  id.style.border = '1px solid #c4ab8f';
 };
 
 let inputs = [
@@ -72,7 +72,6 @@ inputs.forEach((e, i) =>
 
 form.addEventListener('click', () => {
   let result = inputs.every((e) => e.validity.valid === true);
-  console.log(result, 'result');
   if (result) {
     confirmBtn.disabled = false;
     confirmBtn.classList.add('active');
@@ -108,17 +107,16 @@ const addDataToStorage = (
 
 const displayData = () => {
   const data = getFromStorage();
-  console.log(data, 'data');
   popupTab.innerHTML = `<div class="confirm_popup">
   <div class="header_popup">
     <h2 class="title_popup">Order received</h2>
   </div>
   <div class="details_popup">
-      <p>Customer:${data.formName} ${data.formSurname}</p>
-      <p>Address: ${data.formStreet} ${data.fromHouse} ${data.formFlat}</p>
+      <p><span>Customer: </span>${data.formName} ${data.formSurname}</p>
+      <p><span>Address: </span>${data.formStreet} ${data.fromHouse} ${data.formFlat}</p>
   </div>
   <div class="back" id="back">
-    <a href="./index.html">Back to Main</a>
+    <a href="./index.html"> < Back to Main</a>
   </div>
 </div>`;
   popupTab.classList.add('active');
@@ -127,7 +125,6 @@ const displayData = () => {
 confirmBtn.addEventListener('click', (e) => {
   e.preventDefault();
   form.style.display = 'none';
-  console.log('hi');
 
   addDataToStorage(
     firstName.value,
@@ -138,5 +135,3 @@ confirmBtn.addEventListener('click', (e) => {
   );
   displayData();
 });
-
-console.log(popupTab, 'pp1');

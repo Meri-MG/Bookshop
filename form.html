@@ -56,24 +56,41 @@
         required
       />
       <div class="error"></div>
-      <input type="radio" name="payment" value="cash" id="cash" required />
-      <label for="cash">Cash</label>
-      <div class="error"></div>
-      <input type="radio" name="payment" value="card" id="card" required />
-      <label for="card">Card</label>
-      <div class="error"></div>
-      <input type="checkbox" id="gift" name="Gift" value="yes" />
-      <label for="gift"> Gift </label>
-      <div class="error"></div>
-      <input type="checkbox" id="postcard" name="Postcard" value="yes" />
-      <label for="postcard"> Postcard </label>
-      <div class="error"></div>
-      <input type="checkbox" id="discount" name="discount" value="yes" />
-      <label for="discount"> 2% discount for the next time </label>
-      <div class="error"></div>
-      <input type="checkbox" id="branded" name="branded" value="yes" />
-      <label for="branded"> branded pen or pencil </label>
-      <div class="error"></div>
+      <div class="pay_wrap">
+        <label for="cash">Cash</label>
+        <input type="radio" name="payment" value="cash" id="cash" required />
+        <div class="error"></div>
+        <label for="card">Card</label>
+        <input type="radio" name="payment" value="card" id="card" required />
+        <div class="error"></div>
+      </div>
+      <div class="gift_wrap">
+        <p>Choose the gift:</p>
+        <div>
+          <label for="gift">
+            <input type="checkbox" id="gift" name="Gift" value="yes" />
+            Gift
+          </label>
+        </div>
+        <div>
+          <label for="postcard">
+            <input type="checkbox" id="postcard" name="Postcard" value="yes" />
+            Postcard
+          </label>
+        </div>
+        <div>
+          <label for="discount">
+            <input type="checkbox" id="discount" name="discount" value="yes" />
+            2% discount for the next time
+          </label>
+        </div>
+        <div>
+          <label for="branded">
+            <input type="checkbox" id="branded" name="branded" value="yes" />
+            branded pen or pencil
+          </label>
+        </div>
+      </div>
       <button type="submit" id="confirm_btn" disabled>Order</button>
     </form>
     <script src="form.js"></script>
