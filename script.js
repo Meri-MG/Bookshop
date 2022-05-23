@@ -43,8 +43,8 @@ catalogCartDiv.setAttribute('class', 'catalog_cart_div dropzone');
 catalogTotalDiv.appendChild(showTotal);
 orderBtn.appendChild(orderLink);
 catalogTotalDiv.appendChild(orderBtn);
-catalogSection.appendChild(catalogTotalDiv);
 catalogSection.appendChild(catalogCartDiv);
+catalogSection.appendChild(catalogTotalDiv);
 const mainContainer = id('main_container');
 const mainContainerSections = elements('div');
 mainContainerSections.setAttribute('class', 'sections_wrapper');
@@ -256,6 +256,7 @@ const addToCart = (index) => {
     const catalogWrapper = elements('div');
     catalogWrapper.className += 'catalog_wrapper';
     catalogWrapper.setAttribute('id', index);
+    catalogWrapper.setAttribute('data', obj.length);
     const imageDiv = elements('div');
     imageDiv.className += 'catalog_image_wrapper';
     const imgTag = elements('img');
@@ -276,7 +277,7 @@ const addToCart = (index) => {
     const deleteBtn = elements('button');
     deleteBtn.className += 'cart_delete_btn';
     deleteBtn.setAttribute('id', catalog.id);
-    deleteBtn.setAttribute('data', catalog.id);
+    deleteBtn.setAttribute('data', obj.length);
     deleteBtn.type = 'button';
     deleteBtn.innerText = 'X';
     imageDiv.appendChild(imgTag);
@@ -290,7 +291,7 @@ const addToCart = (index) => {
     catalogCartDiv.appendChild(catalogWrapper);
     deleteBtn.addEventListener('click', () => {
       closeCart(deleteBtn);
-      const filtered = addedBooks.filter((item) => item.id !== index);
+      const filtered = addedBooks.filter((item) => item.data !== index);
       console.log(filtered, 'filtered');
       saveToStorage(filtered);
       window.location.reload();
@@ -302,24 +303,48 @@ const addToCart = (index) => {
 
 let dragged = null;
 
-const dragStart = (e) => {
+const dragStart = () => {
   console.log('start');
 };
 
-const dragEnd = () => {
-  console.log('end');
+const dragOver = (e) => {
+  e.preventDefault();
+};
+
+const dragEnd = (e) => {
+  e.preventDefault;
+  // let curX = e.pageX;
+  // let curY = e.pageY;
+  let drag = e.target;
+  let diff_x = e.pageX - e.target.offsetLeft;
+  let diff_y = e.pageY - e.target.offsetTop;
+  let element = e.srcElement;
+  let dropzone = classes('catalog_cart_div');
+  let booksList = getFromStorage();
+  let child = drag.cloneNode(true);
+  // if (parseInt(diff_x, 10) > 886 && parseInt(diff_y, 10) > 232) {
+  if (dropzone[0].classList.contains('catalog_cart_div')) {
+    let deep = true;
+    dropzone[0].appendChild(drag.cloneNode(deep));
+  }
+  // }
+  console.log(dropzone[0], 'dropzone');
+
+  console.log(e.srcElement, 'element');
+  console.log(drag, 'target');
+  console.log(diff_y, 'y');
+  console.log(diff_x, 'x');
+};
+
+const dragCard = (e) => {
+  e.dataTransfer.setData('elemendid', e.target.id);
 };
 
 const drop = () => {
   [...mainCards].forEach((card) => {
-    card.addEventListener('dragstart', (e) => {
-      dragged = e.target;
-      console.log('start');
-    });
-    card.addEventListener('dragend', (e) => {
-      console.log('default');
-      e.preventDefault;
-    });
+    card.addEventListener('dragstart', dragStart);
+    card.addEventListener('dragover', (e) => dragEnd(e));
+    card.addEventListener('dragend', (e) => dragEnd(e));
   });
 };
 
@@ -344,9 +369,10 @@ populate().then((booksList) => {
       }
     });
   });
+  drop();
 });
 
 footer();
-drop();
 
 console.log('hi');
+console.log(mainWrapper, 'wrap');

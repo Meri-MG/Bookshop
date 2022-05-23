@@ -480,6 +480,6 @@ input:focus::placeholder {
   color: var(--pink-primary);
 }
 
-/* .catalog_cart_div {
-  height: 500px;
-} */
+.catalog_cart_div {
+  height: 30vh;
+}
