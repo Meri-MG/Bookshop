@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshop</title>
+    <link rel="stylesheet" href="../reset.css" />
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <form action="" id="form">
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter first name(more than 4 characters)"
+        minlength="4"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="text"
+        id="surname"
+        placeholder="Enter last name(more than 5 characters)"
+        minlength="5"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="date"
+        id="delivery_date"
+        placeholder="Enter delivery date"
+        max="2031-12-31"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="text"
+        id="street"
+        placeholder="Enter street address(more than 5 characters)"
+        minlength="5"
+      />
+      <div class="error"></div>
+      <input
+        type="number"
+        id="house_number"
+        min="0"
+        step="1"
+        onkeypress="return event.charCode >= 48"
+        placeholder="Enter house number(only numbers)"
+        required
+      />
+      <div class="error"></div>
+      <input
+        type="text"
+        id="flat_number"
+        pattern="[1-9]\d*(\s*[-/]\s*[1-9]\d*)?"
+        min="0"
+        step="1"
+        placeholder="Enter flat number(positive numbers and dash symbol)"
+        required
+      />
+      <div class="error"></div>
+      <div class="pay_wrap">
+        <label for="cash">Cash</label>
+        <input type="radio" name="payment" value="cash" id="cash" required />
+        <div class="error"></div>
+        <label for="card">Card</label>
+        <input type="radio" name="payment" value="card" id="card" required />
+        <div class="error"></div>
+      </div>
+      <div class="gift_wrap">
+        <p>Choose the gift:</p>
+        <div>
+          <label for="gift">
+            <input type="checkbox" id="gift" name="Gift" value="yes" />
+            Gift
+          </label>
+        </div>
+        <div>
+          <label for="postcard">
+            <input type="checkbox" id="postcard" name="Postcard" value="yes" />
+            Postcard
+          </label>
+        </div>
+        <div>
+          <label for="discount">
+            <input type="checkbox" id="discount" name="discount" value="yes" />
+            2% discount for the next time
+          </label>
+        </div>
+        <div>
+          <label for="branded">
+            <input type="checkbox" id="branded" name="branded" value="yes" />
+            branded pen or pencil
+          </label>
+        </div>
+      </div>
+      <button type="submit" id="confirm_btn" disabled>Order</button>
+    </form>
+    <script src="form.js"></script>
+  </body>
+</html>
