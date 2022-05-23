@@ -1,7 +1,5 @@
 // import { saveToStorage, getFromStorage } from './storage.js';
 
-// let fragment = new DocumentFragment();
-
 const id = (id) => document.getElementById(id);
 const classes = (classes) => document.getElementsByClassName(classes);
 const elements = (elements) => document.createElement(elements);
@@ -41,7 +39,7 @@ orderBtn.setAttribute('id', 'order_btn');
 orderBtn.setAttribute('type', 'button');
 orderLink.innerText = 'Order now';
 const catalogCartDiv = elements('div');
-catalogCartDiv.setAttribute('class', 'catalog_cart_div');
+catalogCartDiv.setAttribute('class', 'catalog_cart_div dropzone');
 catalogTotalDiv.appendChild(showTotal);
 orderBtn.appendChild(orderLink);
 catalogTotalDiv.appendChild(orderBtn);
@@ -56,6 +54,7 @@ mainContainer.appendChild(headerDiv);
 mainContainerSections.appendChild(mainWrapper);
 mainContainerSections.appendChild(catalogSection);
 mainContainer.appendChild(mainContainerSections);
+const mainCards = classes('card_wrapper');
 
 // target buttons
 let showBtns = classes('card_show_btn');
@@ -132,6 +131,8 @@ const addCards = (obj) => {
   for (let card of obj) {
     const cardWrapper = elements('div');
     cardWrapper.className += 'card_wrapper';
+    cardWrapper.draggable = true;
+    cardWrapper.setAttribute('id', card.id);
     const imageDiv = elements('div');
     imageDiv.className += 'image_wrapper';
     const imgTag = elements('img');
@@ -297,30 +298,55 @@ const addToCart = (index) => {
   });
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-  header();
-  populate().then((booksList) => {
-    addCards(booksList);
-    [...showBtns].forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        if (index === booksList[index].id) {
-          console.log(booksList, 'books');
-          modal(booksList, booksList[index].id);
-        }
-      });
+// drag events
+
+let dragged = null;
+
+const dragStart = (e) => {
+  console.log('start');
+};
+
+const dragEnd = () => {
+  console.log('end');
+};
+
+const drop = () => {
+  [...mainCards].forEach((card) => {
+    card.addEventListener('dragstart', (e) => {
+      dragged = e.target;
+      console.log('start');
     });
-    [...addBtns].forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        console.log(index, 'index', booksList[index].id, 'id-id');
-        if (index === booksList[index].id) {
-          addedBooks = [...addedBooks, booksList[index]];
-          saveToStorage(addedBooks);
-          addToCart(index);
-        }
-      });
+    card.addEventListener('dragend', (e) => {
+      console.log('default');
+      e.preventDefault;
     });
   });
+};
 
-  footer();
-  console.log('DOM fully loaded and parsed');
+header();
+populate().then((booksList) => {
+  addCards(booksList);
+  [...showBtns].forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      if (index === booksList[index].id) {
+        console.log(booksList, 'books');
+        modal(booksList, booksList[index].id);
+      }
+    });
+  });
+  [...addBtns].forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      console.log(index, 'index', booksList[index].id, 'id-id');
+      if (index === booksList[index].id) {
+        addedBooks = [...addedBooks, booksList[index]];
+        saveToStorage(addedBooks);
+        addToCart(index);
+      }
+    });
+  });
 });
+
+footer();
+drop();
+
+console.log('hi');

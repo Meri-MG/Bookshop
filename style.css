@@ -222,6 +222,10 @@ section .container .card_wrapper #add_btn:hover, .card_close_btn:hover, #order_b
   color: var(--grey-primary);
 }
 
+.card_wrapper {
+  cursor: move;
+}
+
 #main_container .cart_section .catalog_total_div {
   width: 100%;
   display: flex;
@@ -475,3 +479,7 @@ input:focus::placeholder {
 .popup_tab div a {
   color: var(--pink-primary);
 }
+
+/* .catalog_cart_div {
+  height: 500px;
+} */
