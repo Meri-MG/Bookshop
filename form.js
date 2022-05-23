@@ -116,7 +116,7 @@ const displayData = () => {
       <p><span>Address: </span>${data.formStreet} ${data.fromHouse} ${data.formFlat}</p>
   </div>
   <div class="back" id="back">
-    <a href="../index.html"> < Back to Main</a>
+    <a href="./index.html"> < Back to Main</a>
   </div>
 </div>`;
   popupTab.classList.add('active');
