@@ -7,6 +7,7 @@
 
 body {
   background-color: var(--white-primary);
+  font-family: 'Roboto', sans-serif;
 }
 
 .container, #main_container {
