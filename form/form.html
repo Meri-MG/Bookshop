@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bookshop</title>
-    <link rel="stylesheet" href="./reset.css" />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../reset.css" />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <form action="" id="form">
@@ -34,7 +34,12 @@
         required
       />
       <div class="error"></div>
-      <input type="text" id="street" placeholder="Enter street address" />
+      <input
+        type="text"
+        id="street"
+        placeholder="Enter street address(more than 5 characters)"
+        minlength="5"
+      />
       <div class="error"></div>
       <input
         type="number"
