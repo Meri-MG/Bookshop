@@ -189,7 +189,7 @@ section .container .card_wrapper:hover, .catalog_total_div:hover, .catalog_wrapp
   box-shadow: 2px 8px 4px -6px hsla(0,0%,0%,.3);
 }
 
-section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn, #order_btn, .catalog_total_div, .catalog_wrapper, .cart_delete_btn, input, #confirm_btn { 
+section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn, #order_btn, .catalog_total_div, .catalog_wrapper, .cart_delete_btn, input, #confirm_btn, .card_delete_btn { 
   color: var(--grey-primary);
   background-color: var(--white-primary);
   align-self: start;
@@ -206,7 +206,7 @@ section .container .card_wrapper .card_show_btn, .card_add_btn, .card_close_btn,
   text-transform: uppercase;
 }
 
-section .container .card_wrapper #show_btn:hover, .cart_delete_btn:hover {
+section .container .card_wrapper #show_btn:hover, .cart_delete_btn:hover, .card_delete_btn:hover {
   background-color: var(--pink-primary);
   color: var(--grey-primary);
 }
@@ -220,6 +220,10 @@ section .container .card_wrapper #add_btn, #order_btn {
 section .container .card_wrapper #add_btn:hover, .card_close_btn:hover, #order_btn:hover, #confirm_btn:hover {
   background-color: var(--pink-primary);
   color: var(--grey-primary);
+}
+
+.card_wrapper {
+  cursor: move;
 }
 
 #main_container .cart_section .catalog_total_div {
@@ -293,10 +297,13 @@ footer .container div img:hover {
   transform: scale(1.2);
 }
 
-.modal_section.active {
+.modal_section {
   position: fixed;
   top: 0;
   bottom: 0;
+}
+
+.modal_section.active {
   left: 0;
   right: 0;
   width: 100%;
@@ -334,11 +341,25 @@ footer .container div img:hover {
 }
 
 .catalog_wrapper img {
-  width: 200px;
+  width: 250px;
 }
 
 .catalog_wrapper.hide {
   display: none;
+}
+
+.catalog_cart_div .catalog_wrapper {
+  min-height: 500px;
+}
+
+.catalog_cart_div .catalog_wrapper .content_wrapper {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.catalog_cart_div .catalog_wrapper .content_wrapper p {
+  margin: 2rem;
+  font-size: 2rem;
 }
 
 /* forms styles */
@@ -474,4 +495,22 @@ input:focus::placeholder {
 
 .popup_tab div a {
   color: var(--pink-primary);
+}
+
+img {
+  width: 200px;
+}
+
+.card_delete_btn {
+  align-self: end;
+  display: none;
+}
+
+.catalog_cart_div .card_delete_btn.active{
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog_cart_div .buttons_wrap {
+  display: none;
 }

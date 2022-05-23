@@ -1,7 +1,5 @@
 // import { saveToStorage, getFromStorage } from './storage.js';
 
-// let fragment = new DocumentFragment();
-
 const id = (id) => document.getElementById(id);
 const classes = (classes) => document.getElementsByClassName(classes);
 const elements = (elements) => document.createElement(elements);
@@ -33,7 +31,7 @@ const catalogTotalDiv = elements('div');
 catalogTotalDiv.setAttribute('class', 'catalog_total_div');
 const showTotal = elements('p');
 showTotal.setAttribute('class', 'show_total');
-showTotal.innerText = 'Total: $';
+showTotal.innerText = `Total: $`;
 const orderLink = elements('a');
 orderLink.setAttribute('href', './form.html');
 const orderBtn = elements('button');
@@ -41,12 +39,12 @@ orderBtn.setAttribute('id', 'order_btn');
 orderBtn.setAttribute('type', 'button');
 orderLink.innerText = 'Order now';
 const catalogCartDiv = elements('div');
-catalogCartDiv.setAttribute('class', 'catalog_cart_div');
+catalogCartDiv.setAttribute('class', 'catalog_cart_div dropzone');
 catalogTotalDiv.appendChild(showTotal);
 orderBtn.appendChild(orderLink);
 catalogTotalDiv.appendChild(orderBtn);
-catalogSection.appendChild(catalogTotalDiv);
 catalogSection.appendChild(catalogCartDiv);
+catalogSection.appendChild(catalogTotalDiv);
 const mainContainer = id('main_container');
 const mainContainerSections = elements('div');
 mainContainerSections.setAttribute('class', 'sections_wrapper');
@@ -56,6 +54,7 @@ mainContainer.appendChild(headerDiv);
 mainContainerSections.appendChild(mainWrapper);
 mainContainerSections.appendChild(catalogSection);
 mainContainer.appendChild(mainContainerSections);
+const mainCards = classes('card_wrapper');
 
 // target buttons
 let showBtns = classes('card_show_btn');
@@ -132,11 +131,19 @@ const addCards = (obj) => {
   for (let card of obj) {
     const cardWrapper = elements('div');
     cardWrapper.className += 'card_wrapper';
+    cardWrapper.draggable = true;
+    cardWrapper.setAttribute('id', card.id);
     const imageDiv = elements('div');
     imageDiv.className += 'image_wrapper';
     const imgTag = elements('img');
     imgTag.src = card.imageLink;
     imgTag.alt = 'book image';
+    const deleteBtn = elements('button');
+    deleteBtn.className += 'card_delete_btn';
+    deleteBtn.setAttribute('id', card.id);
+    deleteBtn.setAttribute('data', obj.length);
+    deleteBtn.type = 'button';
+    deleteBtn.innerText = 'X';
     const contentDiv = elements('div');
     contentDiv.className += 'content_wrapper';
     const cardTitle = elements('h3');
@@ -169,6 +176,7 @@ const addCards = (obj) => {
     buttonsWrap.appendChild(showBtn);
     buttonsWrap.appendChild(addBtn);
     imageDiv.appendChild(imgTag);
+    cardWrapper.appendChild(deleteBtn);
     cardWrapper.appendChild(imageDiv);
     cardWrapper.appendChild(contentDiv);
     container.appendChild(cardWrapper);
@@ -194,7 +202,6 @@ const closePopup = (target) => {
 
 const modal = (obj, index) => {
   clearElement(modalSection);
-  console.log(obj, 'modal');
   obj.forEach((book) => {
     if (book.id === index) {
       const modalWrapper = elements('div');
@@ -243,9 +250,15 @@ const saveToStorage = (list) => {
 };
 
 const closeCart = (target) => {
-  console.log(target.parentElement, 'elem');
-  target.parentElement.classList.add('hide');
-  target.parentElement.classList.remove('active');
+  target.parentElement.remove();
+};
+
+const getTotalAmount = (books) => {
+  return books.reduce((total, book) => {
+    total += book.price;
+    saveToStorage('total', total);
+    return total;
+  }, 0);
 };
 
 const addToCart = (index) => {
@@ -254,7 +267,8 @@ const addToCart = (index) => {
   [...obj].forEach((catalog) => {
     const catalogWrapper = elements('div');
     catalogWrapper.className += 'catalog_wrapper';
-    catalogWrapper.setAttribute('id', index);
+    catalogWrapper.setAttribute('id', catalog.id);
+    catalogWrapper.setAttribute('data', obj.length);
     const imageDiv = elements('div');
     imageDiv.className += 'catalog_image_wrapper';
     const imgTag = elements('img');
@@ -275,7 +289,7 @@ const addToCart = (index) => {
     const deleteBtn = elements('button');
     deleteBtn.className += 'cart_delete_btn';
     deleteBtn.setAttribute('id', catalog.id);
-    deleteBtn.setAttribute('data', catalog.id);
+    deleteBtn.setAttribute('data', obj.length);
     deleteBtn.type = 'button';
     deleteBtn.innerText = 'X';
     imageDiv.appendChild(imgTag);
@@ -287,40 +301,84 @@ const addToCart = (index) => {
     catalogWrapper.appendChild(imageDiv);
     catalogWrapper.appendChild(contentDiv);
     catalogCartDiv.appendChild(catalogWrapper);
+    showTotal.innerText = `Total: $` + getTotalAmount(addedBooks);
     deleteBtn.addEventListener('click', () => {
+      const filtered = [...addedBooks].filter((item) => item.id !== index);
       closeCart(deleteBtn);
-      const filtered = addedBooks.filter((item) => item.id !== index);
-      console.log(filtered, 'filtered');
       saveToStorage(filtered);
-      window.location.reload();
+      location.reload();
     });
   });
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-  header();
-  populate().then((booksList) => {
-    addCards(booksList);
-    [...showBtns].forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        if (index === booksList[index].id) {
-          console.log(booksList, 'books');
-          modal(booksList, booksList[index].id);
-        }
-      });
-    });
-    [...addBtns].forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        console.log(index, 'index', booksList[index].id, 'id-id');
-        if (index === booksList[index].id) {
-          addedBooks = [...addedBooks, booksList[index]];
-          saveToStorage(addedBooks);
-          addToCart(index);
-        }
-      });
+// drag events
+
+let dragged = null;
+
+const dragStart = () => {
+  console.log('start');
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+};
+
+const dragEnd = (e) => {
+  e.preventDefault;
+  let drag = e.target;
+  let element = e.srcElement;
+  let dropzone = classes('catalog_cart_div');
+  let booksList = getFromStorage();
+  let clonedElement = drag.cloneNode(true);
+  const styles = window.getComputedStyle(drag);
+  let cssText = styles.cssText;
+  let delbtn = classes('card_delete_btn');
+  [...delbtn].forEach((btn) => btn.classList.add('active'));
+  if (!cssText) {
+    cssText = Array.from(styles).reduce((str, property) => {
+      return `${str}${property}:${styles.getPropertyValue(property)};`;
+    }, '');
+  }
+  clonedElement.style.cssText = cssText;
+
+  if (dropzone[0].classList.contains('catalog_cart_div')) {
+    dropzone[0].appendChild(clonedElement);
+  }
+};
+
+const dragCard = (e) => {
+  e.dataTransfer.setData('elemendid', e.target.id);
+};
+
+const drop = () => {
+  [...mainCards].forEach((card) => {
+    card.addEventListener('dragstart', dragStart);
+    card.addEventListener('dragover', (e) => dragEnd(e));
+    card.addEventListener('dragend', (e) => dragEnd(e));
+  });
+};
+
+header();
+populate().then((booksList) => {
+  addCards(booksList);
+  [...showBtns].forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      if (index === booksList[index].id) {
+        modal(booksList, booksList[index].id);
+      }
     });
   });
-
-  footer();
-  console.log('DOM fully loaded and parsed');
+  [...addBtns].forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      if (index === booksList[index].id) {
+        addedBooks = [...addedBooks, booksList[index]];
+        saveToStorage(addedBooks);
+        addToCart(index);
+      }
+    });
+  });
+  addToCart();
+  drop();
 });
+
+footer();
