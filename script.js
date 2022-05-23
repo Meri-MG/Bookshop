@@ -33,7 +33,7 @@ const showTotal = elements('p');
 showTotal.setAttribute('class', 'show_total');
 showTotal.innerText = `Total: $`;
 const orderLink = elements('a');
-orderLink.setAttribute('href', '../form/form.html');
+orderLink.setAttribute('href', './form/form.html');
 const orderBtn = elements('button');
 orderBtn.setAttribute('id', 'order_btn');
 orderBtn.setAttribute('type', 'button');
