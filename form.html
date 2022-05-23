@@ -13,7 +13,7 @@
       <input
         type="text"
         id="name"
-        placeholder="Enter your first name"
+        placeholder="Enter first name(more than 4 characters)"
         minlength="4"
         required
       />
@@ -21,7 +21,7 @@
       <input
         type="text"
         id="surname"
-        placeholder="Enter your last name"
+        placeholder="Enter last name(more than 5 characters)"
         minlength="5"
         required
       />
@@ -42,7 +42,7 @@
         min="0"
         step="1"
         onkeypress="return event.charCode >= 48"
-        placeholder="Enter house number"
+        placeholder="Enter house number(only numbers)"
         required
       />
       <div class="error"></div>
@@ -52,7 +52,7 @@
         pattern="[1-9]\d*(\s*[-/]\s*[1-9]\d*)?"
         min="0"
         step="1"
-        placeholder="Enter flat number"
+        placeholder="Enter flat number(positive numbers and dash symbol)"
         required
       />
       <div class="error"></div>

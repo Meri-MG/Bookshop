@@ -31,7 +31,7 @@ const catalogTotalDiv = elements('div');
 catalogTotalDiv.setAttribute('class', 'catalog_total_div');
 const showTotal = elements('p');
 showTotal.setAttribute('class', 'show_total');
-showTotal.innerText = 'Total: $';
+showTotal.innerText = `Total: $`;
 const orderLink = elements('a');
 orderLink.setAttribute('href', './form.html');
 const orderBtn = elements('button');
@@ -138,6 +138,12 @@ const addCards = (obj) => {
     const imgTag = elements('img');
     imgTag.src = card.imageLink;
     imgTag.alt = 'book image';
+    const deleteBtn = elements('button');
+    deleteBtn.className += 'card_delete_btn';
+    deleteBtn.setAttribute('id', card.id);
+    deleteBtn.setAttribute('data', obj.length);
+    deleteBtn.type = 'button';
+    deleteBtn.innerText = 'X';
     const contentDiv = elements('div');
     contentDiv.className += 'content_wrapper';
     const cardTitle = elements('h3');
@@ -170,6 +176,7 @@ const addCards = (obj) => {
     buttonsWrap.appendChild(showBtn);
     buttonsWrap.appendChild(addBtn);
     imageDiv.appendChild(imgTag);
+    cardWrapper.appendChild(deleteBtn);
     cardWrapper.appendChild(imageDiv);
     cardWrapper.appendChild(contentDiv);
     container.appendChild(cardWrapper);
@@ -195,7 +202,6 @@ const closePopup = (target) => {
 
 const modal = (obj, index) => {
   clearElement(modalSection);
-  console.log(obj, 'modal');
   obj.forEach((book) => {
     if (book.id === index) {
       const modalWrapper = elements('div');
@@ -244,9 +250,15 @@ const saveToStorage = (list) => {
 };
 
 const closeCart = (target) => {
-  console.log(target.parentElement, 'elem');
-  target.parentElement.classList.add('hide');
-  target.parentElement.classList.remove('active');
+  target.parentElement.remove();
+};
+
+const getTotalAmount = (books) => {
+  return books.reduce((total, book) => {
+    total += book.price;
+    saveToStorage('total', total);
+    return total;
+  }, 0);
 };
 
 const addToCart = (index) => {
@@ -255,7 +267,7 @@ const addToCart = (index) => {
   [...obj].forEach((catalog) => {
     const catalogWrapper = elements('div');
     catalogWrapper.className += 'catalog_wrapper';
-    catalogWrapper.setAttribute('id', index);
+    catalogWrapper.setAttribute('id', catalog.id);
     catalogWrapper.setAttribute('data', obj.length);
     const imageDiv = elements('div');
     imageDiv.className += 'catalog_image_wrapper';
@@ -289,12 +301,12 @@ const addToCart = (index) => {
     catalogWrapper.appendChild(imageDiv);
     catalogWrapper.appendChild(contentDiv);
     catalogCartDiv.appendChild(catalogWrapper);
+    showTotal.innerText = `Total: $` + getTotalAmount(addedBooks);
     deleteBtn.addEventListener('click', () => {
+      const filtered = [...addedBooks].filter((item) => item.id !== index);
       closeCart(deleteBtn);
-      const filtered = addedBooks.filter((item) => item.data !== index);
-      console.log(filtered, 'filtered');
       saveToStorage(filtered);
-      window.location.reload();
+      location.reload();
     });
   });
 };
@@ -313,27 +325,25 @@ const dragOver = (e) => {
 
 const dragEnd = (e) => {
   e.preventDefault;
-  // let curX = e.pageX;
-  // let curY = e.pageY;
   let drag = e.target;
-  let diff_x = e.pageX - e.target.offsetLeft;
-  let diff_y = e.pageY - e.target.offsetTop;
   let element = e.srcElement;
   let dropzone = classes('catalog_cart_div');
   let booksList = getFromStorage();
-  let child = drag.cloneNode(true);
-  // if (parseInt(diff_x, 10) > 886 && parseInt(diff_y, 10) > 232) {
-  if (dropzone[0].classList.contains('catalog_cart_div')) {
-    let deep = true;
-    dropzone[0].appendChild(drag.cloneNode(deep));
+  let clonedElement = drag.cloneNode(true);
+  const styles = window.getComputedStyle(drag);
+  let cssText = styles.cssText;
+  let delbtn = classes('card_delete_btn');
+  [...delbtn].forEach((btn) => btn.classList.add('active'));
+  if (!cssText) {
+    cssText = Array.from(styles).reduce((str, property) => {
+      return `${str}${property}:${styles.getPropertyValue(property)};`;
+    }, '');
   }
-  // }
-  console.log(dropzone[0], 'dropzone');
+  clonedElement.style.cssText = cssText;
 
-  console.log(e.srcElement, 'element');
-  console.log(drag, 'target');
-  console.log(diff_y, 'y');
-  console.log(diff_x, 'x');
+  if (dropzone[0].classList.contains('catalog_cart_div')) {
+    dropzone[0].appendChild(clonedElement);
+  }
 };
 
 const dragCard = (e) => {
@@ -354,14 +364,12 @@ populate().then((booksList) => {
   [...showBtns].forEach((btn, index) => {
     btn.addEventListener('click', () => {
       if (index === booksList[index].id) {
-        console.log(booksList, 'books');
         modal(booksList, booksList[index].id);
       }
     });
   });
   [...addBtns].forEach((btn, index) => {
     btn.addEventListener('click', () => {
-      console.log(index, 'index', booksList[index].id, 'id-id');
       if (index === booksList[index].id) {
         addedBooks = [...addedBooks, booksList[index]];
         saveToStorage(addedBooks);
@@ -369,10 +377,8 @@ populate().then((booksList) => {
       }
     });
   });
+  addToCart();
   drop();
 });
 
 footer();
-
-console.log('hi');
-console.log(mainWrapper, 'wrap');
