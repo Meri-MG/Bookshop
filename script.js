@@ -306,6 +306,7 @@ const addToCart = (index) => {
       const filtered = [...addedBooks].filter((item) => item.id !== index);
       closeCart(deleteBtn);
       saveToStorage(filtered);
+      location.reload();
     });
   });
 };
